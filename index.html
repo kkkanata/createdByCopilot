@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #22d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        ul {
+            list-style-type: none;
+            text-align: center;
+        }
+
+        #cube {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            animation: rotate 5s infinite linear;
+        }
+
+        .face {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+        }
+
+        #front {
+            transform: translateZ(100px);
+            background: #ff6347;
+        }
+
+        #back {
+            transform: rotateY(180deg) translateZ(100px);
+            background: #1e90ff;
+        }
+
+        #left {
+            transform: rotateY(-90deg) translateZ(100px);
+            background: #3cb371;
+        }
+
+        #right {
+            transform: rotateY(90deg) translateZ(100px);
+            background: #ff4500;
+        }
+
+        #top {
+            transform: rotateX(90deg) translateZ(100px);
+            background: #9acd32;
+        }
+
+        #bottom {
+            transform: rotateX(-90deg) translateZ(100px);
+            background: #ff69b4;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+
+            to {
+                transform: rotateX(360deg) rotateY(360deg);
+            }
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<header>
+    <nav>
+        <ul style="text-align: center;">
+            <li><a href="3d.html">3D Animation</a></li>
+            <li><a href="3d2.html">3D2 Animation</a></li>
+            <li><a href="2d3.html">2d3 Animation</a></li>
+            <li><a href="2d4.html">2d4 Animation</a></li>
+            <li><a href="2d5.html">2d5 Animation</a></li>
+        </ul>
+    </nav>
+</header>
+
+<body>
+    <div id="cube">
+        <div id="cube">
+            <div class="face" id="front"></div>
+            <div class="face" id="back"></div>
+            <div class="face" id="left"></div>
+            <div class="face" id="right"></div>
+            <div class="face" id="top"></div>
+            <div class="face" id="bottom"></div>
+        </div>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <nav>
+        <ul>
+            <li><a href="3d.html">3D Animation</a></li>
+            <li><a href="3d2.html">3D2 Animation</a></li>
+            <li><a href="2d3.html">2d3 Animation</a></li>
+            <li><a href="2d4.html">2d4 Animation</a></li>
+            <li><a href="index.html">index Animation</a></li>
+        </ul>
+    </nav>
+</header>
+<body style="background-color: black;">
+    <canvas id="myCanvas" style="border:1px solid #d2d3d3;">
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+    <script>
+        let canvas = document.getElementById('myCanvas');
+        let ctx = canvas.getContext('2d');
+
+        let points = [];
+        let angle = 0;
+
+        // キャンバスのサイズをウィンドウのサイズに合わせる
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let centerX = canvas.width / 2;
+        let centerY = canvas.height / 2;
+
+        // 2次元図形を描画
+        for (let i = 0; i < 360; i += 10) {
+            let radian = i * Math.PI / 180;
+            let x = centerX + 100 * Math.cos(radian);
+            let y = centerY + 100 * Math.sin(radian);
+            let color = 'rgb(' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ',' + Math.floor(Math.random() * 256) + ')';
+            points.push({ x: x, y: y, color: color });
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let point of points) {
+                ctx.beginPath();
+                ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI); // 点を描画
+                ctx.fillStyle = point.color;
+                ctx.fill();
+            }
+        }
+
+        function rotate() {
+            angle += 1;
+            let radian = angle * Math.PI / 180;
+            for (let point of points) {
+                let x = point.x - centerX;
+                let y = point.y - centerY;
+                point.x = x * Math.cos(radian) - y * Math.sin(radian) + centerX;
+                point.y = x * Math.sin(radian) + y * Math.cos(radian) + centerY;
+            }
+        }
+
+        function diverge() {
+            for (let point of points) {
+                let x = point.x - centerX;
+                let y = point.y - centerY;
+                point.x += x * 0.01;
+                point.y += y * 0.01;
+            }
+        }
+
+        function converge() {
+            for (let point of points) {
+                let x = point.x - centerX;
+                let y = point.y - centerY;
+                if (x < 0) {
+                    point.x += 2;
+                } else {
+                    point.x -= 2;
+                }
+                if (y < 0) {
+                    point.y += 2;
+                } else {
+                    point.y -= 2;
+                }
+            }
+        }
+
+        let state = 'diverging';
+
+        setInterval(function () {
+            draw();
+            rotate();
+            if (state === 'diverging') {
+                diverge();
+            } else if (state === 'converging') {
+                converge();
+            }
+            if (state === 'diverging' && points.some(point => Math.abs(point.x - centerX) > canvas.width / 2 || Math.abs(point.y - centerY) > canvas.height / 2)) {
+                state = 'converging';
+            } else if (state === 'converging' && points.every(point => Math.abs(point.x - centerX) < 100 && Math.abs(point.y - centerY) < 100)) {
+                state = 'diverging';
+            }
+        }, 100);
+
+    </script>
+</body>
+
+</html>

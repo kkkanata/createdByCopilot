@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<header>
+    <nav>
+        <ul>
+            <li><a href="3d.html">3D Animation</a></li>
+            <li><a href="3d2.html">3D2 Animation</a></li>
+            <li><a href="index.html">index Animation</a></li>
+            <li><a href="2d4.html">2d4 Animation</a></li>
+            <li><a href="2d5.html">2d5 Animation</a></li>
+        </ul>
+    </nav>
+</header>
+<body>
+<canvas id="myCanvas" style="border:1px solid #d2d3d3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+// Canvas要素を取得
+var canvas = document.getElementById('myCanvas');
+var ctx = canvas.getContext('2d');
+
+// Canvasのサイズをビューポートのサイズに合わせる
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// 円の数
+var numCircles = 10;
+
+// 円の状態を保持するオブジェクトの配列
+var circles = [];
+for (var i = 0; i < numCircles; i++) {
+    circles.push({
+        time: Math.random(),
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: 50 + Math.random() * 50
+    });
+}
+
+// アニメーションの更新
+function update() {
+    // Canvasをクリア
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 各円を描画
+    for (var i = 0; i < numCircles; i++) {
+        var circle = circles[i];
+
+        // 幾何学模様の描画
+        ctx.beginPath();
+        ctx.arc(circle.x, circle.y, circle.size * Math.abs(Math.sin(circle.time)), 0, 2 * Math.PI);
+        ctx.fillStyle = 'hsl(' + 360 * Math.abs(Math.sin(circle.time)) + ', 50%, 50%)';
+        ctx.fill();
+
+        // 時間の更新
+        circle.time += 0.01;
+
+        // 円の位置の更新
+        circle.x += Math.cos(circle.time);
+        circle.y += Math.sin(circle.time);
+
+        // 円が画面外に出た場合に画面内に戻す
+        if (circle.x < 0) circle.x = canvas.width;
+        if (circle.x > canvas.width) circle.x = 0;
+        if (circle.y < 0) circle.y = canvas.height;
+        if (circle.y > canvas.height) circle.y = 0;
+    }
+
+    // 次のフレームを予約
+    requestAnimationFrame(update);
+}
+
+// アニメーションの開始
+update();
+</script>
+
+</body>
+</html>
